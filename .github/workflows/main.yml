@@ -11,7 +11,7 @@ jobs:
       - name: Start RDP
         run: |
           echo off
-          net user /add myuser mypassword
+          net user /add myuser 1sampai8*
           net localgroup administrators myuser /add
           netsh advfirewall set allprofiles state off
           powershell -Command "Enable-RemoteDesktop"
