@@ -1,0 +1,23 @@
+name: Windows RDP
+
+on:
+  workflow_dispatch:  # Trigger manually or adjust as needed
+
+jobs:
+  rdp:
+    runs-on: windows-latest
+
+    steps:
+      - name: Start RDP
+        run: |
+          echo off
+          net user /add satu 1sampai8
+          net localgroup administrators myuser /add
+          netsh advfirewall set allprofiles state off
+          powershell -Command "Enable-RemoteDesktop"
+          powershell -Command "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server' -Name 'fDenyTSConnections' -Value 0"
+          powershell -Command "Get-NetFirewallRule -DisplayGroup 'Remote Desktop' | Set-NetFirewallRule -Enabled True"
+          systeminfo | findstr /C:"IPv4 Address"
+
+      - name: Keep Runner Alive
+        run: timeout /t 99999
